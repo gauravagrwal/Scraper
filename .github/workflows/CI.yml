@@ -1,0 +1,45 @@
+# This workflow will build a .NET project
+# For more information see: https://docs.github.com/en/actions/automating-builds-and-tests/building-and-testing-net
+
+name: CI
+
+on:
+  push:
+    branches: [ "main" ]
+
+jobs:
+  run-on-linux:
+    runs-on: ubuntu-latest
+    name: Run on Linux
+
+    steps:
+    - name: 🛒 Checkout
+      uses: actions/checkout@v3
+    - name: ⚙️ Setup .NET
+      uses: actions/setup-dotnet@v3
+      with:
+        dotnet-version: 6.0.x
+    - name: 📦 Restore
+      run: dotnet restore
+    - name: 🏗️ Build
+      run: dotnet build --configuration Release --no-restore
+    - name: 🧪 Test
+      run: dotnet test --configuration Release --no-build --verbosity minimal
+      
+  run-on-windows:
+    runs-on: windows-latest
+    name: Run on Windows
+
+    steps:
+    - name: 🛒 Checkout
+      uses: actions/checkout@v3
+    - name: ⚙️ Setup .NET
+      uses: actions/setup-dotnet@v3
+      with:
+        dotnet-version: 6.0.x
+    - name: 📦 Restore
+      run: dotnet restore
+    - name: 🏗️ Build
+      run: dotnet build --configuration Release --no-restore
+    - name: 🧪 Test
+      run: dotnet test --configuration Release --no-build --verbosity minimal
